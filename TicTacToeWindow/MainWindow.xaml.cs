@@ -18,7 +18,7 @@ namespace TicTacToeWindow
         private void Cell_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = sender as Button;
-            int row = Grid.GetRow(clickedButton) - 1;
+            int row = Grid.GetRow(clickedButton);
             int col = Grid.GetColumn(clickedButton);
 
             controller.HandleMove(row, col);

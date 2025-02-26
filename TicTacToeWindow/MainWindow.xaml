@@ -13,15 +13,15 @@
                    HorizontalAlignment="Center" Margin="10"/>
 
         <UniformGrid Grid.Row="1" Columns="3" Rows="3">
-            <Button x:Name="Cell00" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell01" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell02" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell10" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell11" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell12" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell20" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell21" Click="Cell_Click" FontSize="24"/>
-            <Button x:Name="Cell22" Click="Cell_Click" FontSize="24"/>
+            <Button x:Name="Cell00" Click="Cell_Click" FontSize="24" Grid.Row="0" Grid.Column="0"/>
+            <Button x:Name="Cell01" Click="Cell_Click" FontSize="24" Grid.Row="0" Grid.Column="1"/>
+            <Button x:Name="Cell02" Click="Cell_Click" FontSize="24" Grid.Row="0" Grid.Column="2"/>
+            <Button x:Name="Cell10" Click="Cell_Click" FontSize="24" Grid.Row="1" Grid.Column="0"/>
+            <Button x:Name="Cell11" Click="Cell_Click" FontSize="24" Grid.Row="1" Grid.Column="1"/>
+            <Button x:Name="Cell12" Click="Cell_Click" FontSize="24" Grid.Row="1" Grid.Column="2"/>
+            <Button x:Name="Cell20" Click="Cell_Click" FontSize="24" Grid.Row="2" Grid.Column="0"/>
+            <Button x:Name="Cell21" Click="Cell_Click" FontSize="24" Grid.Row="2" Grid.Column="1"/>
+            <Button x:Name="Cell22" Click="Cell_Click" FontSize="24" Grid.Row="2" Grid.Column="2"/>
         </UniformGrid>
 
         <Button Grid.Row="2" Content="Restart" Click="Restart_Click"
