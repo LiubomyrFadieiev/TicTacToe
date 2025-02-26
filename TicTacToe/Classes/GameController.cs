@@ -10,6 +10,7 @@ namespace TicTacToe.Classes
 {
     public class GameController
     {
+        // model and view
         private TicTacToeLogic game;
         private IView view;
 
@@ -27,6 +28,7 @@ namespace TicTacToe.Classes
             }
         }
 
+        // main game loop
         public void PlayGame()
         {
             bool Win = false;

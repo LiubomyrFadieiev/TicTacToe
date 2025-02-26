@@ -9,10 +9,14 @@ namespace TicTacToe.Classes
 {
     public class TicTacToeLogic
     {
+        // constants
         private const int boardSize = 3;
         private const int playerCount = 2;
+
+        // number of turns taken
         private int numberOfTurns;
 
+        // data properties
         public Cell[,] board { get; private set; }
         public List<Player> players { get; private set; }
 
@@ -24,6 +28,7 @@ namespace TicTacToe.Classes
 
         }
 
+        // fill board with empty cells
         private void InitializeBoard()
         {
             for (int i = 0; i < boardSize; i++)
@@ -35,6 +40,7 @@ namespace TicTacToe.Classes
             }
         }
 
+        // player logic
         public bool AddPlayer(string name, char symbol)
         {
             if (players.Count < playerCount)
@@ -50,6 +56,8 @@ namespace TicTacToe.Classes
             return players[numberOfTurns % playerCount];
         }
 
+
+        // change cell or return false if cell is already taken
         public bool ChangeCell(int row, int col)
         {
             if (board[row, col].Value == ' ')
@@ -61,6 +69,7 @@ namespace TicTacToe.Classes
             return false;
         }
 
+        // check winning conditions
         public bool CheckWin(char symbol, int row, int column)
         {
             for (int i = 0; i < boardSize; i++)
@@ -120,6 +129,7 @@ namespace TicTacToe.Classes
             return false;
         }
 
+        // return true if all cells are taken
         public bool IsBoardFull()
         {
             return numberOfTurns == boardSize * boardSize;
