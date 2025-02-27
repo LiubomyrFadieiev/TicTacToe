@@ -10,8 +10,8 @@ namespace TicTacToeWindow.GameControllers
 {
     public class GameControllerManual : IGameController 
     {
-        private TicTacToeLogic game;
-        private MainWindow view;
+        protected TicTacToeLogic game;
+        protected MainWindow view;
 
         public GameControllerManual(MainWindow view)
         {
@@ -21,7 +21,7 @@ namespace TicTacToeWindow.GameControllers
             game.AddPlayer("Player O", 'O');
         }
 
-        public void HandleMove(int row, int col)
+        public virtual void HandleMove(int row, int col)
         {
             Player currentPlayer = game.GetCurrentPlayer();
             if (!game.ChangeCell(row, col)) return;
