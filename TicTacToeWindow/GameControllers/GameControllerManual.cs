@@ -8,12 +8,12 @@ using TicTacToe.Classes;
 
 namespace TicTacToeWindow.GameControllers
 {
-    public class GameController : IGameController 
+    public class GameControllerManual : IGameController 
     {
         private TicTacToeLogic game;
         private MainWindow view;
 
-        public GameController(MainWindow view)
+        public GameControllerManual(MainWindow view)
         {
             this.view = view;
             game = new TicTacToeLogic();
