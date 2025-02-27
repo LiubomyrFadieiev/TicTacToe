@@ -134,5 +134,21 @@ namespace TicTacToe.Classes
         {
             return numberOfTurns == boardSize * boardSize;
         }
+
+        // logic for auto move
+        public Tuple<int,int> AutoChangeCell()
+        {
+            Random random = new Random();
+            int row = random.Next(0, boardSize);
+            int col = random.Next(0, boardSize);
+            while (board[row, col].Value != ' ')
+            {
+                row = random.Next(0, boardSize);
+                col = random.Next(0, boardSize);
+            }
+            board[row, col].Value = GetCurrentPlayer().Symbol;
+            numberOfTurns++;
+            return new Tuple<int,int>(row, col);
+        }
     }
 }

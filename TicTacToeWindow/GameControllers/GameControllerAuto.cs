@@ -3,30 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicTacToe.Classes;
 using TicTacToe.Structs;
 
 namespace TicTacToeWindow.GameControllers
 {
-    class GameControllerAuto : IGameController
+    class GameControllerAuto : GameControllerManual, IGameController
     {
-        public Cell[,] GetBoard()
+        char autoSymbol = 'O';
+        public GameControllerAuto(MainWindow view) : base(view)
         {
-            throw new NotImplementedException();
+            this.view = view;
+            game = new TicTacToeLogic();
+            game.AddPlayer("Player X", 'X');
+            game.AddPlayer("Player O", 'O');
         }
 
-        public Player GetCurrentPlayer()
+        override public void HandleMove(int row, int col)
         {
-            throw new NotImplementedException();
+            Player currentPlayer = game.GetCurrentPlayer();
+            if (!game.ChangeCell(row, col)) return;
+
+            if (CheckEnd(currentPlayer, row, col)) return;
+
+            view.UpdateUI();
+
+            HandleAutoMove();
         }
 
-        public void HandleMove(int row, int col)
+        private void HandleAutoMove()
         {
-            throw new NotImplementedException();
+            Player currentPlayer = game.GetCurrentPlayer();
+            Tuple<int,int> pos = game.AutoChangeCell();
+
+            if (CheckEnd(currentPlayer, pos.Item1, pos.Item2)) return;
+
+            view.UpdateUI();
+
         }
 
-        public void ResetGame()
+        private bool CheckEnd(Player currentPlayer, int row, int col)
         {
-            throw new NotImplementedException();
+            bool end = false;
+            if (game.CheckWin(currentPlayer.Symbol, row, col))
+            {
+                view.UpdateUI();
+                view.ShowMessage($"{currentPlayer.Name} wins!");
+                ResetGame();
+                end = true;
+            }
+            if (game.IsBoardFull())
+            {
+                view.UpdateUI();
+                view.ShowMessage("It's a draw!");
+                ResetGame();
+                end = true;
+            }
+            return end;
         }
     }
 }

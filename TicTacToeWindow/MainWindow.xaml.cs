@@ -7,12 +7,12 @@ namespace TicTacToeWindow
 {
     public partial class MainWindow : Window
     {
-        private GameController controller;
+        private IGameController controller;
 
         public MainWindow()
         {
             InitializeComponent();
-            controller = new TicTacToeWindow.GameController(this);
+            controller = new GameControllerManual(this);
             UpdateUI();
         }
 
@@ -54,6 +54,16 @@ namespace TicTacToeWindow
         public void ShowMessage(string message)
         {
             MessageBox.Show(message, "Game Over", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ifAuto_Checked(object sender, RoutedEventArgs e)
+        {
+            controller = new GameControllerAuto(this);
+        }
+
+        private void ifAuto_Unchecked(object sender, RoutedEventArgs e)
+        {
+            controller = new GameControllerManual(this);
         }
     }
 }
