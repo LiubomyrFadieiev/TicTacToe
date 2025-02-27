@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using TicTacToe.Structs;
 using TicTacToe.Classes;
 
-namespace TicTacToeWindow
+namespace TicTacToeWindow.GameControllers
 {
-    public class GameController
+    public class GameController : IGameController 
     {
         private TicTacToeLogic game;
         private MainWindow view;
