@@ -7,7 +7,7 @@ using TicTacToe.Structs;
 
 namespace TicTacToeWindow
 {
-    interface IGameController
+    public interface IGameController
     {
         public void HandleMove(int row, int col);
         public void ResetGame();
