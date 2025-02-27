@@ -24,7 +24,10 @@
             <Button x:Name="Cell22" Click="Cell_Click" FontSize="24" Grid.Row="2" Grid.Column="2"/>
         </UniformGrid>
 
-        <Button Grid.Row="2" Content="Restart" Click="Restart_Click"
-                HorizontalAlignment="Center" Margin="10" Padding="5"/>
+        <Button Grid.Row="2" Grid.Column="0" Content="Restart" Click="Restart_Click"
+                HorizontalAlignment="Left" Margin="123,10,0,10" Padding="5"/>
+        <CheckBox Grid.Row="2" Content="Play with Computer" x:Name="ifAuto"
+                  HorizontalAlignment="Left" Margin="187,10,0,10" Checked="ifAuto_Checked"
+                  Unchecked="ifAuto_Unchecked"/>
     </Grid>
 </Window>
