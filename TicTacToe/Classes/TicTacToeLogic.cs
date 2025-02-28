@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicTacToe.Interfaces;
 using TicTacToe.Structs;
 
 namespace TicTacToe.Classes
 {
-    public class TicTacToeLogic
+    public class TicTacToeLogic : ITacTacToeLogic
     {
         // constants
         private const int boardSize = 3;
@@ -17,13 +18,13 @@ namespace TicTacToe.Classes
         private int numberOfTurns;
 
         // data properties
-        public Cell[,] board { get; private set; }
-        public List<Player> players { get; private set; }
+        public Cell[,] Board { get; private set; }
+        public List<Player> Players { get; private set; }
 
         public TicTacToeLogic()
         {
-            this.board = new Cell[boardSize, boardSize];
-            this.players = new List<Player>();
+            this.Board = new Cell[boardSize, boardSize];
+            this.Players = [];
             InitializeBoard();
 
         }
@@ -35,7 +36,7 @@ namespace TicTacToe.Classes
             {
                 for (int j = 0; j < boardSize; j++)
                 {
-                    board[i, j] = new Cell { Value = ' ' };
+                    Board[i, j] = new Cell { Value = ' ' };
                 }
             }
         }
@@ -43,9 +44,9 @@ namespace TicTacToe.Classes
         // player logic
         public bool AddPlayer(string name, char symbol)
         {
-            if (players.Count < playerCount)
+            if (Players.Count < playerCount)
             {
-                players.Add(new Player { Name = name, Symbol = symbol });
+                Players.Add(new Player { Name = name, Symbol = symbol });
                 return true;
             }
             return false;
@@ -53,16 +54,16 @@ namespace TicTacToe.Classes
 
         public Player GetCurrentPlayer()
         {
-            return players[numberOfTurns % playerCount];
+            return Players[numberOfTurns % playerCount];
         }
 
 
         // change cell or return false if cell is already taken
         public bool ChangeCell(int row, int col)
         {
-            if (board[row, col].Value == ' ')
+            if (Board[row, col].Value == ' ')
             {
-                board[row, col].Value = GetCurrentPlayer().Symbol;
+                Board[row, col].Value = GetCurrentPlayer().Symbol;
                 numberOfTurns++;
                 return true;
             }
@@ -74,7 +75,7 @@ namespace TicTacToe.Classes
         {
             for (int i = 0; i < boardSize; i++)
             {
-                if (board[row, i].Value != symbol)
+                if (Board[row, i].Value != symbol)
                 {
                     break;
                 }
@@ -86,7 +87,7 @@ namespace TicTacToe.Classes
 
             for (int i = 0; i < boardSize; i++)
             {
-                if (board[i, column].Value != symbol)
+                if (Board[i, column].Value != symbol)
                 {
                     break;
                 }
@@ -100,7 +101,7 @@ namespace TicTacToe.Classes
             {
                 for (int i = 0; i < boardSize; i++)
                 {
-                    if (board[i, column].Value != symbol)
+                    if (Board[i, column].Value != symbol)
                     {
                         break;
                     }
@@ -115,7 +116,7 @@ namespace TicTacToe.Classes
             {
                 for (int i = 0; i < boardSize; i++)
                 {
-                    if (board[i, boardSize - 1 - i].Value != symbol)
+                    if (Board[i, boardSize - 1 - i].Value != symbol)
                     {
                         break;
                     }
@@ -138,15 +139,15 @@ namespace TicTacToe.Classes
         // logic for auto move
         public Tuple<int,int> AutoChangeCell()
         {
-            Random random = new Random();
+            Random random = new();
             int row = random.Next(0, boardSize);
             int col = random.Next(0, boardSize);
-            while (board[row, col].Value != ' ')
+            while (Board[row, col].Value != ' ')
             {
                 row = random.Next(0, boardSize);
                 col = random.Next(0, boardSize);
             }
-            board[row, col].Value = GetCurrentPlayer().Symbol;
+            Board[row, col].Value = GetCurrentPlayer().Symbol;
             numberOfTurns++;
             return new Tuple<int,int>(row, col);
         }
