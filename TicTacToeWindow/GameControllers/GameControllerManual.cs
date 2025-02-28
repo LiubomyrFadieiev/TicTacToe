@@ -53,7 +53,7 @@ namespace TicTacToeWindow.GameControllers
             view.UpdateUI();
         }
 
-        public Cell[,] GetBoard() => game.board;
+        public Cell[,] GetBoard() => game.Board;
         public Player GetCurrentPlayer() => game.GetCurrentPlayer();
     }
 }

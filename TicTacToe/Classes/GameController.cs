@@ -36,11 +36,11 @@ namespace TicTacToe.Classes
             while (!Win)
             {
                 Player currentPlayer = game.GetCurrentPlayer();
-                view.PrintBoard(game.board);
+                view.PrintBoard(game.Board);
                 view.ShowMessage(string.Format("{0}'s turn", currentPlayer.Name));
 
                 Tuple<int, int> move = view.GetMove();
-                if (move.Item1 < 0 || move.Item1 >= game.board.GetLength(0) || move.Item2 < 0 || move.Item2 >= game.board.GetLength(1))
+                if (move.Item1 < 0 || move.Item1 >= game.Board.GetLength(0) || move.Item2 < 0 || move.Item2 >= game.Board.GetLength(1))
                 {
                     view.ShowMessage("Invalid move! Try again.\nPress ENTER to continue.");
                     Console.ReadLine();
@@ -55,13 +55,13 @@ namespace TicTacToe.Classes
 
                 if (game.CheckWin(currentPlayer.Symbol, move.Item1, move.Item2))
                 {
-                    view.PrintBoard(game.board);
+                    view.PrintBoard(game.Board);
                     view.ShowMessage(string.Format("{0} wins!\nPress ENTER to continue.", currentPlayer.Name));
                     Win = true;
                 }
                 else if (game.IsBoardFull())
                 {
-                    view.PrintBoard(game.board);
+                    view.PrintBoard(game.Board);
                     view.ShowMessage("It's a draw!\nPress ENTER to continue.");
                     Console.ReadLine();
                     break;
