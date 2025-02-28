@@ -151,5 +151,11 @@ namespace TicTacToe.Classes
             numberOfTurns++;
             return new Tuple<int,int>(row, col);
         }
+
+        public void ResetGame()
+        {
+            InitializeBoard();
+            numberOfTurns = 0;
+        }
     }
 }
