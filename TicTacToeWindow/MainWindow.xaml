@@ -9,7 +9,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="TurnIndicator" Text="Player X's turn" FontSize="20"
+        <TextBlock x:Name="TurnIndicator" Text="Player 1's turn" FontSize="20"
                    HorizontalAlignment="Center" Margin="10"/>
 
         <UniformGrid Grid.Row="1" Columns="3" Rows="3">
@@ -27,7 +27,7 @@
         <Button Grid.Row="2" Grid.Column="0" Content="Restart" Click="Restart_Click"
                 HorizontalAlignment="Left" Margin="123,10,0,10" Padding="5"/>
         <CheckBox Grid.Row="2" Content="Play with Computer" x:Name="ifAuto"
-                  HorizontalAlignment="Left" Margin="187,10,0,10" Checked="ifAuto_Checked"
-                  Unchecked="ifAuto_Unchecked"/>
+                  HorizontalAlignment="Left" Margin="187,10,0,10" Checked="IfAuto_Checked"
+                  Unchecked="IfAuto_Unchecked"/>
     </Grid>
 </Window>
