@@ -19,7 +19,7 @@ namespace TicTacToe.Classes
                 {
                     Console.Write("{0,5}|", board[i, j].Value);
                 }
-                Console.Write("{0,5}|", board[i, boardSize - 1].Value);
+                Console.Write("{0,5}", board[i, boardSize - 1].Value);
                 Console.WriteLine("\n{0}", new String('-', boardSize * 7));
             }
         }
@@ -46,6 +46,8 @@ namespace TicTacToe.Classes
         public void ShowMessage(string message)
         {
             Console.WriteLine(message);
+            Console.WriteLine("Press ENTER to continue.");
+            Console.ReadLine();
         }
     }
 }
