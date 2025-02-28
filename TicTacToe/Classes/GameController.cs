@@ -8,11 +8,26 @@ using TicTacToe.Structs;
 
 namespace TicTacToe.Classes
 {
-    public class GameController
+    public class GameController : IGameController
     {
         // model and view
-        private TicTacToeLogic game;
-        private IView view;
+        private readonly TicTacToeLogic game;
+        private readonly IView view;
+
+        // use computer for second player
+        protected bool useComputer = false;
+
+        public GameController()
+        {
+            game = new TicTacToeLogic();
+            view = new ConsoleView();
+        }
+
+        public GameController(IView view)
+        {
+            game = new TicTacToeLogic();
+            this.view = view;
+        }
 
         public GameController(TicTacToeLogic game, IView view)
         {
@@ -36,37 +51,75 @@ namespace TicTacToe.Classes
             while (!Win)
             {
                 Player currentPlayer = game.GetCurrentPlayer();
-                view.PrintBoard(game.Board);
-                view.ShowMessage(string.Format("{0}'s turn", currentPlayer.Name));
+                PrintWindow(string.Format("{0}'s turn", currentPlayer.Name));
 
                 Tuple<int, int> move = view.GetMove();
-                if (move.Item1 < 0 || move.Item1 >= game.Board.GetLength(0) || move.Item2 < 0 || move.Item2 >= game.Board.GetLength(1))
-                {
-                    view.ShowMessage("Invalid move! Try again.\nPress ENTER to continue.");
-                    Console.ReadLine();
-                    continue;
-                }
-                if (!game.ChangeCell(move.Item1, move.Item2))
-                {
-                    view.ShowMessage("Invalid move! Try again.\nPress ENTER to continue.");
-                    Console.ReadLine();
-                    continue;
-                }
+                Win = HandleMove(move.Item1, move.Item2, currentPlayer);
 
-                if (game.CheckWin(currentPlayer.Symbol, move.Item1, move.Item2))
-                {
-                    view.PrintBoard(game.Board);
-                    view.ShowMessage(string.Format("{0} wins!\nPress ENTER to continue.", currentPlayer.Name));
-                    Win = true;
-                }
-                else if (game.IsBoardFull())
-                {
-                    view.PrintBoard(game.Board);
-                    view.ShowMessage("It's a draw!\nPress ENTER to continue.");
-                    Console.ReadLine();
-                    break;
-                }
             }
         }
+
+        public bool HandleMove(int row, int col, Player? player = null)
+        {
+            bool result = false;
+            Player currentPlayer = player ?? game.GetCurrentPlayer();
+            if (!CheckValidity(row, col) || !game.ChangeCell(row, col))
+            {
+                view.ShowMessage("Invalid move! Try again.");
+                return result;
+            }
+
+            result = CheckWinningConditions(row, col, currentPlayer);
+
+            if (useComputer)
+            {
+                Tuple<int,int> pos = game.AutoChangeCell();
+                result = CheckWinningConditions(pos.Item1, pos.Item2, game.GetCurrentPlayer());
+            }
+            return result;
+        }
+
+        private bool CheckValidity(int row, int col)
+        {
+            return row >= 0 && row < game.Board.GetLength(0) && col >= 0 && col < game.Board.GetLength(1);
+        }
+
+        private bool CheckWinningConditions(int row, int col, Player currentPlayer) 
+        {
+            if (game.CheckWin(currentPlayer.Symbol, row, col))
+            {
+                PrintWindow(string.Format("{0} wins!", currentPlayer.Name));
+                return true;
+            }
+            else if (game.IsBoardFull())
+            {
+                PrintWindow("It's a draw!");
+                return true;
+            }
+            return false;
+        }
+
+        private void PrintWindow(string message)
+        {
+            view.PrintBoard(game.Board);
+            view.ShowMessage(message);
+        }
+
+        public void SetComputerPlayer(bool useComputer)
+        {
+            this.useComputer = useComputer;
+        }
+
+        public void ResetGame()
+        {
+            game.ResetGame();
+            UpdateGame();
+        }
+
+        public void UpdateGame()
+        {
+            PrintWindow(string.Format("{0}'s turn", game.GetCurrentPlayer().Name));
+        }
     }
+
 }
