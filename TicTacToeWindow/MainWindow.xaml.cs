@@ -1,19 +1,22 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TicTacToe.Classes;
-using TicTacToeWindow.GameControllers;
+using TicTacToe.Structs;
+using TicTacToe.Interfaces;
 
 namespace TicTacToeWindow
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IView
     {
-        private IGameController controller;
+        private readonly IGameController controller;
 
         public MainWindow()
         {
             InitializeComponent();
-            controller = new GameControllerManual(this);
-            UpdateUI();
+            controller = new GameController(this);
+            controller.AddPlayer("Player 1", 'X');
+            controller.AddPlayer("Player 2", 'O');
+            controller.ResetGame();
         }
 
         private void Cell_Click(object sender, RoutedEventArgs e)
@@ -22,7 +25,15 @@ namespace TicTacToeWindow
             int row = Grid.GetRow(clickedButton);
             int col = Grid.GetColumn(clickedButton);
 
-            controller.HandleMove(row, col);
+            bool win = controller.HandleMove(row, col);
+            if (win)
+            {
+                controller.ResetGame();
+            }
+            else
+            {
+                controller.UpdateGame();
+            }
         }
 
         private void Restart_Click(object sender, RoutedEventArgs e)
@@ -30,9 +41,10 @@ namespace TicTacToeWindow
             controller.ResetGame();
         }
 
-        public void UpdateUI()
+        // PrintBoard
+        public void UpdateUI(Cell[,] board)
         {
-            var board = controller.GetBoard();
+
             Button[,] buttons = {
                 { Cell00, Cell01, Cell02 },
                 { Cell10, Cell11, Cell12 },
@@ -47,23 +59,37 @@ namespace TicTacToeWindow
                     buttons[i, j].IsEnabled = board[i, j].Value == ' ';
                 }
             }
-
-            TurnIndicator.Text = $"{controller.GetCurrentPlayer().Name}'s turn";
         }
 
+        // ShowMessage
         public void ShowMessage(string message)
         {
-            MessageBox.Show(message, "Game Over", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (message.Contains("turn"))
+            {
+                TurnIndicator.Text = message;
+                return;
+            }
+            MessageBox.Show(message, "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void ifAuto_Checked(object sender, RoutedEventArgs e)
+        private void IfAuto_Checked(object sender, RoutedEventArgs e)
         {
-            controller = new GameControllerAuto(this);
+            controller.SetComputerPlayer(true);
         }
 
-        private void ifAuto_Unchecked(object sender, RoutedEventArgs e)
+        private void IfAuto_Unchecked(object sender, RoutedEventArgs e)
         {
-            controller = new GameControllerManual(this);
+            controller.SetComputerPlayer(false);
+        }
+
+        public void PrintBoard(Cell[,] board)
+        {
+            UpdateUI(board);
+        }
+
+        public Tuple<int, int> GetMove()
+        {
+            throw new NotImplementedException();
         }
     }
 }
